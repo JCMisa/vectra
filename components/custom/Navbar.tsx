@@ -1,10 +1,23 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import NavItems from "./NavItems";
 import LogoFull from "./LogoFull";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null; // or a loading skeleton
+  }
+
   return (
     <nav className="navbar">
       <div className="hidden lg:block">

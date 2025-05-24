@@ -1,6 +1,7 @@
 "use client";
-// import { removeBookmark } from "@/lib/actions/companion.actions";
-// import { addBookmark } from "@/lib/actions/companion.actions";
+import { removeBookmark } from "@/lib/actions/companion.actions";
+import { addBookmark } from "@/lib/actions/companion.actions";
+import { BookmarkCheckIcon, BookmarkXIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -25,27 +26,27 @@ const CompanionCard = ({
   bookmarked,
 }: CompanionCardProps) => {
   const pathname = usePathname();
-  const handleBookmark = async () => {
-    // if (bookmarked) {
-    //   await removeBookmark(id, pathname);
-    // } else {
-    //   await addBookmark(id, pathname);
-    // }
+
+  const handleAddBookmark = async () => {
+    await addBookmark(id, pathname);
   };
+
+  const handleRemoveBookmark = async () => {
+    await removeBookmark(id, pathname);
+  };
+
   return (
     <article className="companion-card" style={{ backgroundColor: color }}>
       <div className="flex justify-between items-center">
         <div className="subject-badge">{subject}</div>
-        <button className="companion-bookmark" onClick={handleBookmark}>
-          <Image
-            src={
-              bookmarked ? "/icons/bookmark-filled.svg" : "/icons/bookmark.svg"
-            }
-            alt="bookmark"
-            width={12.5}
-            height={15}
-          />
-        </button>
+        <div className="flex items-center gap-2">
+          <button className="companion-bookmark" onClick={handleAddBookmark}>
+            <BookmarkCheckIcon className="size-5 text-white" />
+          </button>
+          <button className="companion-bookmark" onClick={handleRemoveBookmark}>
+            <BookmarkXIcon className="size-5 text-red-500" />
+          </button>
+        </div>
       </div>
 
       <h2 className="text-2xl font-bold">{name}</h2>
