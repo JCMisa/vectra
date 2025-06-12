@@ -28,7 +28,9 @@ export const getAllCompanions = async ({
 
   const { data: companions, error } = await query;
 
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.log(error.message);
+  }
 
   return companions;
 };
@@ -72,7 +74,9 @@ export const addToSessionHistory = async (companionId: string) => {
     user_id: userId,
   });
 
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.log(error.message);
+  }
 
   return data;
 };
@@ -85,9 +89,11 @@ export const getRecentSessions = async (limit = 10) => {
     .order("created_at", { ascending: false })
     .limit(limit);
 
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.log(error.message);
+  }
 
-  return data.map(({ companions }) => companions);
+  return data?.map(({ companions }) => companions);
 };
 
 export const getUserSessions = async (userId: string, limit = 10) => {
@@ -99,9 +105,11 @@ export const getUserSessions = async (userId: string, limit = 10) => {
     .order("created_at", { ascending: false })
     .limit(limit);
 
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.log(error.message);
+  }
 
-  return data.map(({ companions }) => companions);
+  return data?.map(({ companions }) => companions);
 };
 
 export const getUserCompanions = async (userId: string) => {
@@ -111,7 +119,9 @@ export const getUserCompanions = async (userId: string) => {
     .select()
     .eq("author", userId);
 
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.log(error.message);
+  }
 
   return data;
 };
@@ -135,11 +145,13 @@ export const newCompanionPermissions = async () => {
     .select("id", { count: "exact" })
     .eq("author", userId);
 
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.log(error.message);
+  }
 
   const companionCount = data?.length;
 
-  if (companionCount >= limit) {
+  if (companionCount || 0 >= limit) {
     return false;
   } else {
     return true;
